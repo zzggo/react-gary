@@ -305,11 +305,68 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]},
+        ],
+        [
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+        ],
+        [
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+        ],
+        [
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ]
       ],
       initialVal:[1,1],
-      rightLimit: 6,
-      topLimit: 6,
+      rightLimit: 16,
+      topLimit: 9,
       defaultAddress:'0xb573295b7F3B12513B0c602cDDd3f0D75f8961F8',
       account:'',
       move: '',
@@ -455,9 +512,26 @@ class App extends Component {
         </div>
 
         <Flex>
-          <Flex width={1/5} flexDirection='column'>
+          <Flex width={1/5} flexDirection='column' justifyContent='right' alignItems='flex-end'>
             {/* <Box py='20px'> */}
               <Text fontSize='30px' color='#0000FF' textAlign='right'>Join Game</Text>
+              <MoveButton onClick={this.joinGame} alignItems='flex-end' py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your direction: {this.state.direction}</Text>
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your move: {this.state.move}</Text>
+              <Box py='10px' px='8px'>
+                <img src={require('./assets/svg/arrow1.svg')} />
+              </Box>
+              <Box py='10px' px='8px'>
+                <img src={require('./assets/svg/arrow2.svg')} />
+              </Box>
+
+              <Box py='10px' px='8px'>
+                <img src={require('./assets/svg/arrow3.svg')} />
+              </Box>
+              <Box py='10px' px='8px'>
+                <img src={require('./assets/svg/arrow4.svg')} />
+              </Box>
+
               <Box pb='60px'>
                 <MoveButton onClick={this.joinGame}  py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
               </Box>

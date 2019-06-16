@@ -14,10 +14,20 @@
     position:relative;
 }   
 .background{
-    background-color:#0000ff;
     width:50px;
     height:50px;
     position:absolute;
+    top:0;
+    left:0;
+}
+.gary{
+    font-size:24px;
+    color:#000;
+    text-shadow:#fff;
+}
+.svgImage{
+    position:absolute;
+    z-index:999;
     top:0;
     left:0;
 }

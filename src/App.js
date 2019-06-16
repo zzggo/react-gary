@@ -157,10 +157,12 @@ class App extends Component {
     this.setState({
       grid: oldGrid
     })
-    console.log(oldGrid);
   }
   update(value){
-    console.log(value[2]);
+    let red = value.substr(3, 2);
+    let green = value.substr(5, 2);
+    red = parseInt(red, 16);
+    green = parseInt(green, 16);
     let val = value[2];
     val = parseInt(val, 16);
     val = Math.floor(val/4);
@@ -183,6 +185,8 @@ class App extends Component {
     position[0] = right;
     position[1] = top;
     oldGrid[right][top]['gary'] = 1;
+    oldGrid[right][top]['bgColor'] = 'rgb(' + red + ',' + red + ',255)';
+    console.log(oldGrid[right][top]['bgColor']);
     this.setState({
       grid: oldGrid,
       initialVal: position
@@ -201,7 +205,6 @@ class App extends Component {
     this.setState({
       account: window.web3.eth.accounts[0]
     });
-
   }
   history = async () => {
     // const history = web3.eth.subscribe(address);

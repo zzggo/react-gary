@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import gary from './assets/svg/gary.svg';
+// import gary from '../../assets/svg/gary.svg';
 import './style.css';
 
 class Grid extends Component {
@@ -14,11 +14,12 @@ class Grid extends Component {
           { 
             project.map((i, index) => 
               <div key={index} className="column">
-                {i.gary}
-                <div style={{ opacity: i.opacity }} className="background"></div>
                 {i.gary &&
-                  <div className="gary">gary</div>
+                  <div className="gary">
+                    <img className="svgImage" src={require('../../assets/svg/gary.svg')} />
+                  </div>
                 }
+                <div style={{ backgroundColor: i.bgColor }} className="background"></div>
               </div>
             ) 
           }

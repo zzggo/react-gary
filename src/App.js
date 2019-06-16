@@ -171,8 +171,6 @@ class App extends Component {
     let rightLimit = this.state.rightLimit;
     let topLimit = this.state.topLimit;
     oldGrid[right][top]['gary'] = 0;
-    console.log(topLimit < right);
-    console.log(val);
     if (rightLimit > right && val === 0){
       right += 1;
     } else if (topLimit > top && val === 1){
@@ -238,6 +236,9 @@ class App extends Component {
             history
           </button>
         </header>
+        <div className="title">
+          <h1 className="titleHeader">“GET GARY HOME.”</h1>
+        </div>
         <Grid format={this.state.grid}/>
       </div>
     );

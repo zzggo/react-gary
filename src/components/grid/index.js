@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import gary from './assets/svg/gary.svg';
 import './style.css';
 
 class Grid extends Component {
@@ -16,7 +17,7 @@ class Grid extends Component {
                 {i.gary}
                 <div style={{ opacity: i.opacity }} className="background"></div>
                 {i.gary &&
-                  <div className="gary">Gary</div>
+                  <div className="gary">gary</div>
                 }
               </div>
             ) 

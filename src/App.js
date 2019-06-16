@@ -31,8 +31,75 @@ const MoveButton = styled.button`
     }
 `
 
-const abi = [{"constant":true,"inputs":[],"name":"nextMove","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getNextMove","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"pressMe","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
-const address = '0xCf6000749aACD2D802dDd644B77D7BfCecc06AD6';
+const abi = [
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "makeMove",
+    "outputs": [
+      {
+        "name": "x",
+        "type": "uint256"
+      },
+      {
+        "name": "y",
+        "type": "uint256"
+      },
+      {
+        "name": "lastMoveState",
+        "type": "uint256"
+      },
+      {
+        "name": "lastMoveAddress",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "registerForGame",
+    "outputs": [
+      {
+        "name": "move",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "resetState",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "move",
+        "type": "uint256"
+      }
+    ],
+    "name": "MoveMade",
+    "type": "event"
+  }
+];
+const address = '0x7097dF05577127EdE24997f7934e6bf6488F839e';
 const ethereum = window.ethereum;
 let contract;
 // window.addEventListener('load', () => {
@@ -97,10 +164,11 @@ window.addEventListener('load', async () => {
 class App extends Component {
   constructor(props){
     super(props);
-    this.state = { 
+    this.state = {
+      direction: '',
       grid:[
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -109,7 +177,7 @@ class App extends Component {
           {color:'blue',opacity:[0.3]}
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -118,7 +186,7 @@ class App extends Component {
           {color:'blue',opacity:[0.3]}
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -127,7 +195,7 @@ class App extends Component {
           {color:'blue',opacity:[0.3]}
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -136,7 +204,7 @@ class App extends Component {
           {color:'blue',opacity:[0.3]}
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -145,7 +213,7 @@ class App extends Component {
           {color:'blue',opacity:[0.3]}
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -154,7 +222,7 @@ class App extends Component {
           {color:'blue',opacity:[0.3]}
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -167,7 +235,8 @@ class App extends Component {
       rightLimit: 6,
       topLimit: 6,
       defaultAddress:'0xb573295b7F3B12513B0c602cDDd3f0D75f8961F8',
-      account:''
+      account:'',
+      move: '',
     };
     this.initial = this.initial.bind(this);
     this.update = this.update.bind(this);
@@ -183,7 +252,7 @@ class App extends Component {
     })
   }
   update(value){
-    console.log(value);
+    // console.log(value);
     let red = value.substr(3, 2);
     red = parseInt(red, 16);
     let val = value[2];
@@ -209,7 +278,7 @@ class App extends Component {
     position[1] = top;
     oldGrid[right][top]['gary'] = 1;
     oldGrid[right][top]['bgColor'] = 'rgb(' + red + ',' + red + ',255)';
-    console.log(oldGrid[right][top]['bgColor']);
+    // console.log(oldGrid[right][top]['bgColor']);
     this.setState({
       grid: oldGrid,
       initialVal: position
@@ -219,16 +288,16 @@ class App extends Component {
     const that = this;
     eventWeb3.eth.subscribe('pendingTransactions', options, (error, result) => {
       if (!error) {
-        console.log('result: ' + result);
+        // console.log('result: ' + result);
       }
         that.update(result);
     }).on("data", (result) => {
-      console.log(result);
+      // console.log(result);
     }).on("changed", (result) => {
-      console.log(result);
+      // console.log(result);
     });
   }
-  
+
   componentDidMount(){
     this.initial();
     this.subscribe();
@@ -240,15 +309,29 @@ class App extends Component {
     // const history = web3.eth.subscribe(address);
     console.log(contract);
   }
-  send = async () => {
+  joinGame = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.pressMe().send({from: this.state.account})
-    console.log(tx)
-  }
+    const tx = await contract.methods.registerForGame().send({from: this.state.account})
+    this.setState({direction: tx});
+    console.log("TX: ", tx);
+  };
+  resetGame = async () => {
+    console.log(this.state.account);
+    const tx = await contract.methods.resetState().send({from: this.state.account})
+    this.setState({reset: tx})
+    console.log("TX: ", tx);
+  };
+  makeMove = async () => {
+    console.log(this.state.account);
+    const tx = await contract.methods.makeMove().send({from: this.state.account})
+    this.setState({move: tx});
+    console.log("TX: ", tx);
+  };
+
   read = async () => {
     const nextMove = await contract.methods.getNextMove().call();
     console.log('next Move: ', nextMove)
-  }
+  };
   render(){
     return (
       <div className="App">
@@ -276,16 +359,21 @@ class App extends Component {
         <Flex>
           <Flex width={1/5} flexDirection='column'>
             {/* <Box py='20px'> */}
-              <Text fontSize='30px' color='#0000FF' textAlign='right'>History</Text>
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Join Game</Text>
+              <MoveButton onClick={this.joinGame}  py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your direction: {this.state.direction}</Text>
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your move: {this.state.move}</Text>
+
             {/* </Box> */}
           </Flex>
           <Flex width={3/5} px='50px' flexDirection='column' justifyContent='center' alignItems='center'>
             <Grid format={this.state.grid}></Grid>
             {/* <MoveBox width={80}> */}
-              <MoveButton  py='50px' border={1} borderColor="#0000FF">Move</MoveButton>
+              <MoveButton onClick={this.makeMove} py='50px' border={1} borderColor="#0000FF">Move</MoveButton>
+              <MoveButton onClick={this.resetGame} py='50px' border={1} borderColor="#0000FF">Reset</MoveButton>
             {/* </MoveBox> */}
           </Flex>
-          
+
           <Flex width={1/5} flexDirection='column'>
             <Text fontSize='30px' color='#0000FF' textAlign='left'>History</Text>
           </Flex>

@@ -175,7 +175,7 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -185,7 +185,7 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]}
-          
+
         ],
         [
           {color:'blue',opacity:[0.7]},
@@ -195,26 +195,7 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.7]}, 
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]},
-        ],
-        [
           {color:'blue',opacity:[0.7]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.7]}, 
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -233,7 +214,7 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -252,7 +233,7 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -271,7 +252,7 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -290,7 +271,26 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]},
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+        ],
+        [
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
@@ -382,19 +382,27 @@ class App extends Component {
   }
   joinGame = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.registerForGame().send({from: this.state.account})
-    this.setState({direction: tx});
-    console.log("TX: ", tx);
+    const tx = await contract.methods.registerForGame().send({from: this.state.account}, e => {
+      this.setState({direction: e});
+      console.log("TX: ", e);
+    })
+
   };
   resetGame = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.resetState().send({from: this.state.account})
+    const tx = await contract.methods.resetState().send({from: this.state.account}, e => {
+      this.setState({reset: e});
+      console.log("TX: ", e);
+    })
     this.setState({reset: tx})
     console.log("TX: ", tx);
   };
   makeMove = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.makeMove().send({from: this.state.account})
+    const tx = await contract.methods.makeMove().send({from: this.state.account}, e => {
+      this.setState({move: e});
+      console.log("TX: ", e);
+    })
     this.setState({move: tx});
     console.log("TX: ", tx);
   };
@@ -428,7 +436,7 @@ class App extends Component {
           <Box pb='60px'>
             <img src={require('./assets/svg/bar.svg')} />
           </Box>
-          
+
         </div>
 
         <Flex>

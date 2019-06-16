@@ -160,9 +160,7 @@ class App extends Component {
   }
   update(value){
     let red = value.substr(3, 2);
-    let green = value.substr(5, 2);
     red = parseInt(red, 16);
-    green = parseInt(green, 16);
     let val = value[2];
     val = parseInt(val, 16);
     val = Math.floor(val/4);
@@ -194,8 +192,15 @@ class App extends Component {
   }
   subscribe(){
     const that = this;
-    eventWeb3.eth.subscribe('pendingTransactions',options, function (error, result) {
-      that.update(result);
+    eventWeb3.eth.subscribe('pendingTransactions', options, (error, result) => {
+      if (!error) {
+        console.log('result: ' + result);
+      }
+        that.update(result);
+    }).on("data", (result) => {
+      console.log(result);
+    }).on("changed", (result) => {
+      console.log(result);
     });
   }
   

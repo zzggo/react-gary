@@ -9,7 +9,7 @@
     flex-direction:space-between;
 }
 .column{
-    border:1px solid #000;
+    border:1px solid rgba(0, 0, 255, 0.3);
     width:50px;
     height:50px;
     position:relative;

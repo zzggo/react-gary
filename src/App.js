@@ -365,8 +365,8 @@ class App extends Component {
         ]
       ],
       initialVal:[1,1],
-      rightLimit: 16,
-      topLimit: 9,
+      rightLimit: 9,
+      topLimit: 16,
       defaultAddress:'0xb573295b7F3B12513B0c602cDDd3f0D75f8961F8',
       account:'',
       move: '',
@@ -423,13 +423,13 @@ class App extends Component {
     const that = this;
     eventWeb3.eth.subscribe('pendingTransactions', options, (error, result) => {
       if (!error) {
-        // console.log('result: ' + result);
+        console.log('result: ' + result);
       }
         that.update(result);
     }).on("data", (result) => {
-      // console.log(result);
+      console.log(result);
     }).on("changed", (result) => {
-      // console.log(result);
+      console.log(result);
     });
   }
 
@@ -486,7 +486,7 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-        <header className="App-header">
+        {/* <header className="App-header">
           <button
            onClick={this.send}
           >
@@ -502,7 +502,7 @@ class App extends Component {
           >
             history
           </button>
-        </header>
+        </header> */}
         <div className="title">
           <h1 className="titleHeader">“GET GARY HOME.”</h1>
           <Box pb='60px'>
@@ -516,31 +516,17 @@ class App extends Component {
             {/* <Box py='20px'> */}
               <Text fontSize='30px' color='#0000FF' textAlign='right'>Join Game</Text>
               <MoveButton onClick={this.joinGame} alignItems='flex-end' py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
+
+
               <Text fontSize='30px' color='#0000FF' textAlign='right'>Your direction: {this.state.direction}</Text>
-              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your move: {this.state.move}</Text>
               <Box py='10px' px='8px'>
-                <img src={require('./assets/svg/arrow1.svg')} />
+                <img src={require('./assets/svg/right-arrow.svg')} />
               </Box>
-              <Box py='10px' px='8px'>
-                <img src={require('./assets/svg/arrow2.svg')} />
-              </Box>
-
-              <Box py='10px' px='8px'>
-                <img src={require('./assets/svg/arrow3.svg')} />
-              </Box>
-              <Box py='10px' px='8px'>
-                <img src={require('./assets/svg/arrow4.svg')} />
-              </Box>
-
-              <Box pb='60px'>
-                <MoveButton onClick={this.joinGame}  py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
-              </Box>
-              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your direction: {this.state.direction}<img src={require('./assets/svg/right-arrow.svg')} /></Text>
               {/*<Text fontSize='30px' color='#0000FF' textAlign='right'>Your move: {this.state.move}</Text>*/}
 
             {/* </Box> */}
           </Flex>
-          <Flex width={3/5} px='50px' flexDirection='column' justifyContent='center' alignItems='center'>
+          <Flex width={3/5} px='50px' flexDirection='column' justifyContent='flex-start' alignItems='center'>
             <Grid format={this.state.grid}></Grid>
             {/* <MoveBox width={80}> */}
               <MoveButton onClick={this.makeMove} py='50px' border={1} borderColor="#0000FF">Move</MoveButton>
@@ -550,16 +536,17 @@ class App extends Component {
 
           <Scroll width={1/5} flexDirection='column'>
             <Text fontSize='30px' color='#0000FF' textAlign='left'>History</Text>
+            
             {
               this.state.history.map((val, i) => {
                 if (val === 0) {
-                  return <img src={require('./assets/svg/up-arrow.svg')} />
+                  return <Box py='10px' px='8px' alignItems='start' justifyContent='start' m={0}> <img src={require('./assets/svg/up-arrow.svg')} /> </Box>
                 } else if (val === 1) {
-                  return <img src={require('./assets/svg/down-arrow.svg')} />
+                  return <Box py='10px' px='8px'> <img src={require('./assets/svg/down-arrow.svg')} /> </Box>
                 } else if (val === 2) {
-                  return <img src={require('./assets/svg/left-arrow.svg')} />
+                  return <Box py='10px' px='8px'> <img src={require('./assets/svg/left-arrow.svg')} />  </Box>
                 } else if (val === 3) {
-                  return <img src={require('./assets/svg/right-arrow.svg')} />
+                  return  <Box py='10px' px='8px'> <img src={require('./assets/svg/right-arrow.svg')} /> </Box>
                 }
 
               })

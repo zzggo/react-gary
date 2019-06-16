@@ -15,6 +15,11 @@ import {
   Button
 } from 'rebass'
 
+const Scroll = styled(Flex)({
+  overflow: 'scroll',
+  height: '100vh',
+})
+
 const MoveButton = styled.button`
     width: 140px;
     height: 60px;
@@ -308,6 +313,7 @@ class App extends Component {
       defaultAddress:'0xb573295b7F3B12513B0c602cDDd3f0D75f8961F8',
       account:'',
       move: '',
+      history: []
     };
     this.initial = this.initial.bind(this);
     this.update = this.update.bind(this);
@@ -329,6 +335,7 @@ class App extends Component {
     let val = value[2];
     val = parseInt(val, 16);
     val = Math.floor(val/4);
+    this.addHistoryItem(val)
     let oldGrid = this.state.grid;
     let position = this.state.initialVal;
     let right = this.state.initialVal[0];
@@ -382,26 +389,29 @@ class App extends Component {
   }
   joinGame = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.registerForGame().send({from: this.state.account}, e => {
-      this.setState({direction: e});
-      console.log("TX: ", e);
+    const tx = await contract.methods.registerForGame().send({from: this.state.account}, (e, r) => {
+      // this.setState({direction: r});
+      console.log("TX: ", r);
+      console.log("ERROR: ", e);
     })
 
   };
   resetGame = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.resetState().send({from: this.state.account}, e => {
-      this.setState({reset: e});
-      console.log("TX: ", e);
+    const tx = await contract.methods.resetState().send({from: this.state.account}, (e, r) => {
+      // this.setState({reset: r});
+      console.log("TX: ", r);
+      console.log("ERROR: ", e);
     })
-    this.setState({reset: tx})
     console.log("TX: ", tx);
   };
   makeMove = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.makeMove().send({from: this.state.account}, e => {
-      this.setState({move: e});
-      console.log("TX: ", e);
+    const tx = await contract.methods.makeMove().send({from: this.state.account}, (e, r) => {
+      // this.setState({move: r});
+      console.log("TX: ", r);
+      console.log("TX: ", r);
+      console.log("ERROR: ", e);
     })
     this.setState({move: tx});
     console.log("TX: ", tx);
@@ -410,6 +420,11 @@ class App extends Component {
   read = async () => {
     const nextMove = await contract.methods.getNextMove().call();
     console.log('next Move: ', nextMove)
+  };
+  addHistoryItem = (val) => {
+    // not allowed AND not working
+    let history = this.state.history.concat(val);
+    this.setState({ history })
   };
   render(){
     return (
@@ -443,9 +458,11 @@ class App extends Component {
           <Flex width={1/5} flexDirection='column'>
             {/* <Box py='20px'> */}
               <Text fontSize='30px' color='#0000FF' textAlign='right'>Join Game</Text>
-              <MoveButton onClick={this.joinGame}  py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
-              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your direction: {this.state.direction}</Text>
-              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your move: {this.state.move}</Text>
+              <Box pb='60px'>
+                <MoveButton onClick={this.joinGame}  py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
+              </Box>
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your direction: {this.state.direction}<img src={require('./assets/svg/right-arrow.svg')} /></Text>
+              {/*<Text fontSize='30px' color='#0000FF' textAlign='right'>Your move: {this.state.move}</Text>*/}
 
             {/* </Box> */}
           </Flex>
@@ -453,13 +470,27 @@ class App extends Component {
             <Grid format={this.state.grid}></Grid>
             {/* <MoveBox width={80}> */}
               <MoveButton onClick={this.makeMove} py='50px' border={1} borderColor="#0000FF">Move</MoveButton>
-              <MoveButton onClick={this.resetGame} py='50px' border={1} borderColor="#0000FF">Reset</MoveButton>
+              {/*<MoveButton onClick={this.resetGame} py='50px' border={1} borderColor="#0000FF">Reset</MoveButton>*/}
             {/* </MoveBox> */}
           </Flex>
 
-          <Flex width={1/5} flexDirection='column'>
+          <Scroll width={1/5} flexDirection='column'>
             <Text fontSize='30px' color='#0000FF' textAlign='left'>History</Text>
-          </Flex>
+            {
+              this.state.history.map((val, i) => {
+                if (val === 0) {
+                  return <img src={require('./assets/svg/up-arrow.svg')} />
+                } else if (val === 1) {
+                  return <img src={require('./assets/svg/down-arrow.svg')} />
+                } else if (val === 2) {
+                  return <img src={require('./assets/svg/left-arrow.svg')} />
+                } else if (val === 3) {
+                  return <img src={require('./assets/svg/right-arrow.svg')} />
+                }
+
+              })
+            }
+          </Scroll>
         </Flex>
       </div>
     );

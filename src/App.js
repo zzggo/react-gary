@@ -174,7 +174,18 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]}
+          
         ],
         [
           {color:'blue',opacity:[0.7]},
@@ -183,7 +194,17 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
           {color:'blue',opacity:[0.7]},
@@ -192,7 +213,17 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
           {color:'blue',opacity:[0.7]},
@@ -201,7 +232,17 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
           {color:'blue',opacity:[0.7]},
@@ -210,7 +251,17 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
           {color:'blue',opacity:[0.7]},
@@ -219,7 +270,17 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
           {color:'blue',opacity:[0.7]},
@@ -228,7 +289,17 @@ class App extends Component {
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ]
       ],
       initialVal:[1,1],
@@ -354,6 +425,10 @@ class App extends Component {
         </header>
         <div className="title">
           <h1 className="titleHeader">“GET GARY HOME.”</h1>
+          <Box pb='60px'>
+            <img src={require('./assets/svg/bar.svg')} />
+          </Box>
+          
         </div>
 
         <Flex>

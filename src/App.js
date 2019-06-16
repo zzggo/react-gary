@@ -3,6 +3,33 @@ import logo from './logo.svg';
 import './App.css';
 import Web3 from 'web3';
 import Grid from './components/grid';
+import styled from 'styled-components'
+
+import {
+  Flex,
+  Box,
+  Card,
+  Image,
+  Heading,
+  Text,
+  Button
+} from 'rebass'
+
+const MoveButton = styled.button`
+    width: 140px;
+    height: 60px;
+    border-radius: 8px;
+    border: 1px solid #0000FF;
+    color: blue;
+    background-color: white;
+    font-family: 'VT323', monospace;
+    font-size: 35px;
+
+    &:hover {
+      background-color: blue;
+      color: white;
+    }
+`
 
 const abi = [{"constant":true,"inputs":[],"name":"nextMove","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getNextMove","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"pressMe","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 const address = '0xCf6000749aACD2D802dDd644B77D7BfCecc06AD6';
@@ -66,9 +93,6 @@ window.addEventListener('load', async () => {
     console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
   }
 });
-
-
-
 
 class App extends Component {
   constructor(props){
@@ -159,6 +183,7 @@ class App extends Component {
     })
   }
   update(value){
+    console.log(value);
     let red = value.substr(3, 2);
     red = parseInt(red, 16);
     let val = value[2];
@@ -247,7 +272,24 @@ class App extends Component {
         <div className="title">
           <h1 className="titleHeader">“GET GARY HOME.”</h1>
         </div>
-        <Grid format={this.state.grid}/>
+
+        <Flex>
+          <Flex width={1/5} flexDirection='column'>
+            {/* <Box py='20px'> */}
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>History</Text>
+            {/* </Box> */}
+          </Flex>
+          <Flex width={3/5} px='50px' flexDirection='column' justifyContent='center' alignItems='center'>
+            <Grid format={this.state.grid}></Grid>
+            {/* <MoveBox width={80}> */}
+              <MoveButton  py='50px' border={1} borderColor="#0000FF">Move</MoveButton>
+            {/* </MoveBox> */}
+          </Flex>
+          
+          <Flex width={1/5} flexDirection='column'>
+            <Text fontSize='30px' color='#0000FF' textAlign='left'>History</Text>
+          </Flex>
+        </Flex>
       </div>
     );
   }

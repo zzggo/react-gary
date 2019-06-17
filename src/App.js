@@ -3,9 +3,108 @@ import logo from './logo.svg';
 import './App.css';
 import Web3 from 'web3';
 import Grid from './components/grid';
+import styled from 'styled-components'
 
-const abi = [{"constant":true,"inputs":[],"name":"nextMove","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getNextMove","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"pressMe","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
-const address = '0xCf6000749aACD2D802dDd644B77D7BfCecc06AD6';
+import {
+  Flex,
+  Box,
+  Card,
+  Image,
+  Heading,
+  Text,
+  Button
+} from 'rebass'
+
+const Scroll = styled(Flex)({
+  overflow: 'scroll',
+  height: '100vh',
+})
+
+const MoveButton = styled.button`
+    width: 140px;
+    height: 60px;
+    border-radius: 8px;
+    border: 1px solid #0000FF;
+    color: blue;
+    background-color: white;
+    font-family: 'VT323', monospace;
+    font-size: 35px;
+
+    &:hover {
+      background-color: blue;
+      color: white;
+    }
+`
+
+const abi = [
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "makeMove",
+    "outputs": [
+      {
+        "name": "x",
+        "type": "uint256"
+      },
+      {
+        "name": "y",
+        "type": "uint256"
+      },
+      {
+        "name": "lastMoveState",
+        "type": "uint256"
+      },
+      {
+        "name": "lastMoveAddress",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "registerForGame",
+    "outputs": [
+      {
+        "name": "move",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "resetState",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "move",
+        "type": "uint256"
+      }
+    ],
+    "name": "MoveMade",
+    "type": "event"
+  }
+];
+const address = '0x7097dF05577127EdE24997f7934e6bf6488F839e';
 const ethereum = window.ethereum;
 let contract;
 // window.addEventListener('load', () => {
@@ -67,83 +166,211 @@ window.addEventListener('load', async () => {
   }
 });
 
-
-
-
 class App extends Component {
   constructor(props){
     super(props);
-    this.state = { 
+    this.state = {
+      direction: '',
       grid:[
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.3]}
+
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ],
         [
-          {color:'blue',opacity:[0.7]}, 
+          {color:'blue',opacity:[0.7]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
           {color:'blue',opacity:[0.4]},
-          {color:'blue',opacity:[0.3]}
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+        ],
+        [
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+        ],
+        [
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+        ],
+        [
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.7]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.4]},
+          {color:'blue',opacity:[0.3]},
         ]
       ],
       initialVal:[1,1],
-      rightLimit: 6,
-      topLimit: 6,
+      rightLimit: 9,
+      topLimit: 16,
       defaultAddress:'0xb573295b7F3B12513B0c602cDDd3f0D75f8961F8',
-      account:''
+      account:'',
+      move: '',
+      history: []
     };
     this.initial = this.initial.bind(this);
     this.update = this.update.bind(this);
@@ -159,11 +386,13 @@ class App extends Component {
     })
   }
   update(value){
+    // console.log(value);
     let red = value.substr(3, 2);
     red = parseInt(red, 16);
     let val = value[2];
     val = parseInt(val, 16);
     val = Math.floor(val/4);
+    this.addHistoryItem(val)
     let oldGrid = this.state.grid;
     let position = this.state.initialVal;
     let right = this.state.initialVal[0];
@@ -184,7 +413,7 @@ class App extends Component {
     position[1] = top;
     oldGrid[right][top]['gary'] = 1;
     oldGrid[right][top]['bgColor'] = 'rgb(' + red + ',' + red + ',255)';
-    console.log(oldGrid[right][top]['bgColor']);
+    // console.log(oldGrid[right][top]['bgColor']);
     this.setState({
       grid: oldGrid,
       initialVal: position
@@ -203,7 +432,7 @@ class App extends Component {
       console.log(result);
     });
   }
-  
+
   componentDidMount(){
     this.initial();
     this.subscribe();
@@ -215,19 +444,49 @@ class App extends Component {
     // const history = web3.eth.subscribe(address);
     console.log(contract);
   }
-  send = async () => {
+  joinGame = async () => {
     console.log(this.state.account);
-    const tx = await contract.methods.pressMe().send({from: this.state.account})
-    console.log(tx)
-  }
+    const tx = await contract.methods.registerForGame().send({from: this.state.account}, (e, r) => {
+      // this.setState({direction: r});
+      console.log("TX: ", r);
+      console.log("ERROR: ", e);
+    })
+
+  };
+  resetGame = async () => {
+    console.log(this.state.account);
+    const tx = await contract.methods.resetState().send({from: this.state.account}, (e, r) => {
+      // this.setState({reset: r});
+      console.log("TX: ", r);
+      console.log("ERROR: ", e);
+    })
+    console.log("TX: ", tx);
+  };
+  makeMove = async () => {
+    console.log(this.state.account);
+    const tx = await contract.methods.makeMove().send({from: this.state.account}, (e, r) => {
+      // this.setState({move: r});
+      console.log("TX: ", r);
+      console.log("TX: ", r);
+      console.log("ERROR: ", e);
+    })
+    this.setState({move: tx});
+    console.log("TX: ", tx);
+  };
+
   read = async () => {
     const nextMove = await contract.methods.getNextMove().call();
     console.log('next Move: ', nextMove)
-  }
+  };
+  addHistoryItem = (val) => {
+    // not allowed AND not working
+    let history = this.state.history.concat(val);
+    this.setState({ history })
+  };
   render(){
     return (
       <div className="App">
-        <header className="App-header">
+        {/* <header className="App-header">
           <button
            onClick={this.send}
           >
@@ -243,11 +502,57 @@ class App extends Component {
           >
             history
           </button>
-        </header>
+        </header> */}
         <div className="title">
           <h1 className="titleHeader">“GET GARY HOME.”</h1>
+          <Box pb='60px'>
+            <img src={require('./assets/svg/bar.svg')} />
+          </Box>
+
         </div>
-        <Grid format={this.state.grid}/>
+
+        <Flex>
+          <Flex width={1/5} flexDirection='column' justifyContent='right' alignItems='flex-end'>
+            {/* <Box py='20px'> */}
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Join Game</Text>
+              <MoveButton onClick={this.joinGame} alignItems='flex-end' py='50px' border={1} borderColor="#0000FF">Join</MoveButton>
+
+
+              <Text fontSize='30px' color='#0000FF' textAlign='right'>Your direction: {this.state.direction}</Text>
+              <Box py='10px' px='8px'>
+                <img src={require('./assets/svg/right-arrow.svg')} />
+              </Box>
+              {/*<Text fontSize='30px' color='#0000FF' textAlign='right'>Your move: {this.state.move}</Text>*/}
+
+            {/* </Box> */}
+          </Flex>
+          <Flex width={3/5} px='50px' flexDirection='column' justifyContent='flex-start' alignItems='center'>
+            <Grid format={this.state.grid}></Grid>
+            {/* <MoveBox width={80}> */}
+              <MoveButton onClick={this.makeMove} py='50px' border={1} borderColor="#0000FF">Move</MoveButton>
+              {/*<MoveButton onClick={this.resetGame} py='50px' border={1} borderColor="#0000FF">Reset</MoveButton>*/}
+            {/* </MoveBox> */}
+          </Flex>
+
+          <Scroll width={1/5} flexDirection='column'>
+            <Text fontSize='30px' color='#0000FF' textAlign='left'>History</Text>
+            
+            {
+              this.state.history.map((val, i) => {
+                if (val === 0) {
+                  return <Box py='10px' px='8px' alignItems='start' justifyContent='start' m={0}> <img src={require('./assets/svg/up-arrow.svg')} /> </Box>
+                } else if (val === 1) {
+                  return <Box py='10px' px='8px'> <img src={require('./assets/svg/down-arrow.svg')} /> </Box>
+                } else if (val === 2) {
+                  return <Box py='10px' px='8px'> <img src={require('./assets/svg/left-arrow.svg')} />  </Box>
+                } else if (val === 3) {
+                  return  <Box py='10px' px='8px'> <img src={require('./assets/svg/right-arrow.svg')} /> </Box>
+                }
+
+              })
+            }
+          </Scroll>
+        </Flex>
       </div>
     );
   }
